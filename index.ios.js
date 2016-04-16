@@ -1,3 +1,4 @@
+import { MapView } from 'react-native'
 /**
  * Sample React Native App
  * https://github.com/facebook/react-native
@@ -15,7 +16,14 @@ var {
     } = React
 var AddressBook = require('react-native-addressbook')
 var _= require('lodash')
+window.DeviceHeight = require('Dimensions').get('window').height
+        window.DeviceWidth = require('Dimensions').get('window').width
 const insta = React.createClass({
+  getInitialState: function(){
+    return {
+      showMap: false
+    }
+  },
     showAlert: function(){
         var me = this
         AlertIOS.alert(
@@ -23,7 +31,8 @@ const insta = React.createClass({
             "We will use your contacts to help you connect with your friends easily. ",
             [
                 {
-                    text: 'Cancel'
+                    text: 'Show Maps',
+                  onPress: ()=>me.setState({showMap: !me.state.showMap})
                 },
                 {
                     text: 'Find my friends',
@@ -79,23 +88,14 @@ const insta = React.createClass({
                 </View>
 
                 <View style={{justifyContent: "center", flex:10, alignItems: "center"}}>
-                    <Text style={styles.welcome}>
-                        Welcome to InstaWork!
-                    </Text>
-                    <Text style={styles.instructions}>
-                        To get started, edit index.ios.js
-                    </Text>
-                    <Text style={styles.instructions}>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ___{'\n'}
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '-||__/__________
-                        {'\n'}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |==/|_|_|_|_|_/
-                        {'\n'}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |=/_|_|_|_|_|/
-                        {'\n'}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |/|_|_|_|_|_/
-                        {'\n'}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |_|_|_|_|_|/
-                        {'\n'}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )_____(_
-                        {'\n'}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; jgs&nbsp; [--------|
-                        {'\n'}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (o)""""(o)
-                    </Text>
+                  { this.state.showMap ? <MapView
+                      style={{
+                        height:  DeviceHeight-60 ,
+                        width:  DeviceWidth ,
+                      }}
+                      onRegionChange={() => {}}
+                      onRegionChangeComplete={() => {}}
+                      showUserLocation={true} /> : null }
                 </View>
             </View>
         );
